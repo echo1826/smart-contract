@@ -19,6 +19,7 @@ beforeEach(async () => {
     .deploy({data: bytecode, arguments: ['Hello World!']})
     // send method tells web3 to send out a transaction that creates the contract
     .send({from: fetchedAccounts[0], gas: '1000000'})
+    // this operation will return us a direct connection to the contract, so the variable is our javascript representation of the contract
 });
 
 describe('Inbox',() => {
