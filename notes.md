@@ -12,7 +12,7 @@
 - returns the transaction hash
 - costs money
 
-# Web3
+## Web3
 - can use web3 to connect to a network
 - once connected to a network you can use that web3 connection to deploy a contract onto the network (must know the ABI and the bytecode of the contract)
 - can also use web3 to interact with contracts that have already been deployed (must know the ABI and the address of deployed contract)

@@ -9,7 +9,7 @@ contract Inbox {
         message = initialMessage;
     }
 
-    function setMesasge(string newMessage) public {
+    function setMessage(string newMessage) public {
         message = newMessage;
     }
 }
