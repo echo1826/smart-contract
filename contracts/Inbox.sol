@@ -6,10 +6,10 @@ contract Inbox {
     string public message;
 
     function Inbox(string initialMessage) public {
-        message = initialMessage
+        message = initialMessage;
     }
 
     function setMesasge(string newMessage) public {
-        message = newMessage
+        message = newMessage;
     }
 }
