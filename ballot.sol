@@ -18,7 +18,11 @@ contract Inbox {
         message = newMessage;
     }
 
+    // public view are part of the function type declaration
+    // public means anyone can call the function, view means the function returns data only and doesn't modify the contract data
+    // returns means what type of data the function is going to return
     function getMessage() public view returns (string) {
         return message;
     }
+    // additional function type words are private, only the contract can call the function, constant, means the same thing as view, pure, meaning the function will not modify or read the contract's data, payable, meaning when someone calls the function ether might be sent along
 }
