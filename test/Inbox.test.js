@@ -2,7 +2,7 @@
 const assert = require('assert');
 const ganache = require('ganache-cli');
 const Web3 = require('web3');
-const {interface, bytecode} = require('../compile');
+const { abi, evm } = require('../compile');
 
 // creating a web3 instance passing in a provider that tells it what network we want to connect to
 const web3 = new Web3(ganache.provider());
@@ -15,15 +15,15 @@ beforeEach(async () => {
     fetchedAccounts = await web3.eth.getAccounts();
     // use one of those accounts to deploy the contract
     // .Contract tells the web3 connection what the inbox contract is
-    inbox = await new web3.eth.Contract(JSON.parse(interface))
-    // deploy method is telling web3 to deploy a new copy of the contract
-    .deploy({data: bytecode, arguments: [initialString]})
-    // send method tells web3 to send out a transaction that creates the contract
-    .send({from: fetchedAccounts[0], gas: '1000000'})
+    inbox = await new web3.eth.Contract(abi)
+        // deploy method is telling web3 to deploy a new copy of the contract
+        .deploy({ data: evm.bytecode.object, arguments: [initialString] })
+        // send method tells web3 to send out a transaction that creates the contract
+        .send({ from: fetchedAccounts[0], gas: '1000000' })
     // this operation will return us a direct connection to the contract, so the variable is our javascript representation of the contract
 });
 
-describe('Inbox',() => {
+describe('Inbox', () => {
     it('deploys a contract', () => {
         // asserts if the contract has an address (meaning if the contract was deployed)
         assert.ok(inbox.options.address)
@@ -37,7 +37,7 @@ describe('Inbox',() => {
         // because the setMessage method is changing data on the block, you must create a transaction to call the function
         const newMessage = "Bye World!"
         // from field is who will pay the gas to call the message
-        await inbox.methods.setMessage(newMessage).send({from: fetchedAccounts[0]});
+        await inbox.methods.setMessage(newMessage).send({ from: fetchedAccounts[0] });
         const message = await inbox.methods.message().call();
         assert.equal(message, newMessage);
     })
