@@ -32,7 +32,7 @@ contract Lottery {
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players)));
     }
 
-    function pickWinner() public payable {
+    function pickWinner() public {
         uint index = random() % players.length;
 
         // transfer function will send wei to the address attached to it
