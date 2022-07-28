@@ -22,4 +22,16 @@ contract Lottery {
 
         players.push(msg.sender);
     }
+
+    function random() private view returns (uint) {
+        // sha3 is a global function that will hash out the arguments passed into it as a number
+        // block is a global variable that we can access at any time, difficulty refers to the current mining difficulty, ~15 seconds
+        // timestamp refers to the current time
+        // recasted the keccak256 data type to uint256 explicitly (returned a byte32, or a string with max length of 32)
+        return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players)));
+    }
+
+    function pickWinner() public view returns(address) {
+        
+    }
 }
