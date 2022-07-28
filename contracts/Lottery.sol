@@ -7,7 +7,7 @@ contract Lottery {
     // address type specific for the address hash
     address public manager;
 
-    address[] players;
+    address payable[] players;
 
     constructor() public {
         // the msg object is a global object that is always available
@@ -20,7 +20,8 @@ contract Lottery {
         // require is a global function that can be accessed anywhere in solidity, it's used for validation, like validating the player paid enough ether to enter into the lottery
         require(msg.value > .01 ether);
 
-        players.push(msg.sender);
+        // making the player being pushed into the lottery a payable player because msg.sender is not automatically payable
+        players.push(payable(msg.sender));
     }
 
     function random() private view returns (uint) {
@@ -31,7 +32,11 @@ contract Lottery {
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players)));
     }
 
-    function pickWinner() public view returns(address) {
-        
+    function pickWinner() public payable {
+        uint index = random() % players.length;
+
+        // transfer function will send wei to the address attached to it
+        // address(this).balance will send the current balance attached to the contract instance
+        players[index].transfer(address(this).balance);
     }
 }
