@@ -38,5 +38,9 @@ contract Lottery {
         // transfer function will send wei to the address attached to it
         // address(this).balance will send the current balance attached to the contract instance
         players[index].transfer(address(this).balance);
+        
+        // remakes the players array without any players, the (0) is an initial size/length for the new array
+        // if the array was initialized with a length, the array would contain addresses with 0's because there were no intial values give for the array i.e. [0x0000000, 0x00000000, 0x0000000...]
+        players = new address payable[](0);
     }
 }
