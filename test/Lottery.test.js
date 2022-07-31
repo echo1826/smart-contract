@@ -70,5 +70,16 @@ describe('Lottery', () => {
         } catch(err) {
             assert(err);
         }
+    });
+
+    it('only a manager can pick a winner', async () => {
+        try {
+            await lottery.methods.pickWinner().send({
+                from: fetchedAccounts[1]
+            });
+            assert(false);
+        } catch(err) {
+            assert(err)
+        }
     })
 });

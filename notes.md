@@ -12,6 +12,8 @@
 - returns the transaction hash
 - costs money
 
+Calling a function if the contract function is returning data, send a transaction to call a function that isn't specified as a function that returns something
+
 ## Web3
 - can use web3 to connect to a network
 - once connected to a network you can use that web3 connection to deploy a contract onto the network (must know the ABI and the bytecode of the contract)
