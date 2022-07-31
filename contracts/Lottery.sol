@@ -7,7 +7,7 @@ contract Lottery {
     // address type specific for the address hash
     address public manager;
 
-    address payable[] players;
+    address[] players;
 
     constructor() public {
         // the msg object is a global object that is always available
@@ -32,6 +32,7 @@ contract Lottery {
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players)));
     }
 
+    // restricted modifier used on this function to make sure only the manager can call this function
     function pickWinner() public restricted {
         // make sure the manager is the only one who can pick the winner
         // require(msg.sender == manager);
@@ -40,11 +41,11 @@ contract Lottery {
 
         // transfer function will send wei to the address attached to it
         // address(this).balance will send the current balance attached to the contract instance
-        players[index].transfer(address(this).balance);
+        payable(players[index]).transfer(address(this).balance);
         
         // remakes the players array without any players, the (0) is an initial size/length for the new array
         // if the array was initialized with a length, the array would contain addresses with 0's because there were no intial values give for the array i.e. [0x0000000, 0x00000000, 0x0000000...]
-        players = new address payable[](0);
+        players = new address[](0);
     }
 
     // function modifier 
@@ -53,5 +54,9 @@ contract Lottery {
         // the underscore represents the function body that the modifier is attached to if the above conditional passes then the function will run
         // modifiers are used to not repeat the same require statement on multiple functions that needs that depends on the conditional to run
         _;
+    }
+
+    function getPlayers() public view returns (address[] memory){
+        return players;
     }
 }
