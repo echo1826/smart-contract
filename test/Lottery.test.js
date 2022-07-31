@@ -81,5 +81,25 @@ describe('Lottery', () => {
         } catch(err) {
             assert(err)
         }
-    })
+    });
+
+    it('sends money to the winner and reset players', async () => {
+        await lottery.methods.enter().send({
+            from: fetchedAccounts[0],
+            value: web3.utils.toWei('2', 'ether')
+        });
+
+        const initialBalance = await web3.eth.getBalance(fetchedAccounts[0]);
+
+        await lottery.methods.pickWinner().send({
+            from: fetchedAccounts[0]
+        });
+
+        const finalBalance = await web3.eth.getBalance(fetchedAccounts[0]);
+
+        // even though the difference should be 2 ether, must take into account the amount of gas being paid for each , thus must test if the difference is close enough to 2 ether, not exactly 2 ether
+        const difference = finalBalance - initialBalance;
+        
+        assert(difference > web3.utils.toWei('1.8', 'ether'));
+    });
 });
