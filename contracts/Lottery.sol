@@ -32,7 +32,10 @@ contract Lottery {
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players)));
     }
 
-    function pickWinner() public {
+    function pickWinner() public restricted {
+        // make sure the manager is the only one who can pick the winner
+        // require(msg.sender == manager);
+
         uint index = random() % players.length;
 
         // transfer function will send wei to the address attached to it
@@ -42,5 +45,13 @@ contract Lottery {
         // remakes the players array without any players, the (0) is an initial size/length for the new array
         // if the array was initialized with a length, the array would contain addresses with 0's because there were no intial values give for the array i.e. [0x0000000, 0x00000000, 0x0000000...]
         players = new address payable[](0);
+    }
+
+    // function modifier 
+    modifier restricted() {
+        require(msg.sender == manager);
+        // the underscore represents the function body that the modifier is attached to if the above conditional passes then the function will run
+        // modifiers are used to not repeat the same require statement on multiple functions that needs that depends on the conditional to run
+        _;
     }
 }
