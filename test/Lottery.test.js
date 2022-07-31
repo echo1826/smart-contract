@@ -24,7 +24,7 @@ beforeEach(async () => {
 
 describe('Lottery', () => {
     it("deploys the contract", () => {
-        assert(lottery.options.address)
+        assert.ok(lottery.options.address)
     });
 
     it("Allows one account to enter", async () => {
@@ -59,4 +59,16 @@ describe('Lottery', () => {
         }
         assert.equal(3, players.length)
     });
+
+    it('requires a minimum amount of ether to enter', async () => {
+        try{
+            await lottery.methods.enter().send({
+                from: fetchedAccounts[0],
+                value: 0
+            });
+            assert(false);
+        } catch(err) {
+            assert(err);
+        }
+    })
 });
