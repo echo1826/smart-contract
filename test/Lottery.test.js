@@ -40,6 +40,23 @@ describe('Lottery', () => {
         assert.equal(1, players.length);
 
         assert.equal(fetchedAccounts[0], players[0]);
-    
+    });
+
+    it("Allows multiple accounts to enter", async () => {
+        for(let i = 0; i < 3; i++) {
+            await lottery.methods.enter().send({
+                from: fetchedAccounts[i],
+                value: web3.utils.toWei('0.02', 'ether')
+            });
+        }
+
+        const players = await lottery.methods.getPlayers().call({
+            from: fetchedAccounts[0]
+        });
+
+        for(let i = 0; i < 3; i++) {
+            assert.equal(fetchedAccounts[i], players[i]);
+        }
+        assert.equal(3, players.length)
     });
 });
