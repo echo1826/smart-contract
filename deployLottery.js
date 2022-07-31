@@ -11,6 +11,7 @@ const provider = new HDWalletProvider(
     process.env.MNEMONIC,
     api
 );
+// console.log(provider);
 const web3 = new Web3(provider);
 
 async function deploy() {
