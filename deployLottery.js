@@ -2,7 +2,7 @@
 require('dotenv').config();
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const Web3 = require('web3');
-const {abi, evm} = require('./compile');
+const {abi, evm} = require('./compileLottery');
 
 const api = `https://rinkeby.infura.io/v3/${process.env.API_KEY}`;
 

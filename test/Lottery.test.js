@@ -112,4 +112,19 @@ describe('Lottery', () => {
 
         assert.equal(0, lotteryBalance);
     });
+
+    it('ouput winners address', async () => {
+        await lottery.methods.enter().send({
+            from: fetchedAccounts[0],
+            value: web3.utils.toWei('2', 'ether')
+        });
+
+        await lottery.methods.pickWinner().send({
+            from: fetchedAccounts[0]
+        });
+
+        const winner = await lottery.methods.getWinner().call();
+
+        assert.equal(fetchedAccounts[0], winner);
+    })
 });
